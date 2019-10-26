@@ -1,0 +1,206 @@
+{include file='public/header' /}
+<link rel="stylesheet" href="__CSS_PATH__onlinebooking.css">
+<style>
+    .layui-unselect.layui-form-select,.layui-select-title,.layui-input.layui-unselect{
+        height: 24px;
+        width: 300px;
+    }
+    input{
+        height: 24px;
+    }
+    .layui-input.layui-unselect{
+        border: 1px solid rgb(169, 169, 169);
+        border-radius: 4px;
+        outline: none;
+    }
+    .layui-unselect.layui-form-radio{
+        margin-top: 0;
+    }
+</style>
+    <div class="main">
+        <!-- 图片开始 -->
+        <div class="container conten">
+            <div class="row">
+                <div class="main-img">
+                    <img src="__IMG_PATH__OnlineBooking/banner.jpg" alt="">
+                </div>
+            </div>
+        </div>
+        <!-- 图片结束 -->
+        <!-- 标题开始 -->
+        <div class="container">
+            <div class="row">
+                <div class="main-tittle">
+                    <div class="main-tittle-left ">
+
+                    </div>
+                    <div class="main-tittle-font ">
+                        <dic class="tiittle-cn">
+                            在线预约
+                        </dic>
+                        <div class="tittle-en">
+                            <span>Online&nbsp;Appointment</span>
+                        </div>
+                    </div>
+                    <div class="main-tittle-right">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- 标题结束 -->
+        <!-- 表单开始 -->
+        <div class="main-form">
+            <form id="form" class="layui-form" id="form-reset">
+                <div class="container ">
+                    <div class="row form-box">
+                        <div class="form-balank"></div>
+                        <div class="form-content">
+                            <div class="form-font">
+                                <div class="form-left">
+                                    预约服务：
+                                </div>
+                                <div class="form-list">
+                                    <select name="oid">
+                                        {volist name='datas' id='vo'}
+                                            <option value="{$vo.oid}">{$vo.oname}</option>
+                                        {/volist}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-font">
+                                <div class="form-left">
+                                    预约日期：
+                                </div>
+                                <div class="form-list form-data">
+                                    <input type="date" name="odate">
+                                </div>
+                            </div>
+                            <div class="tishi">
+                                <div class="font-tishi data-font-tishi">
+                                    ! 这是一个必填项哦
+                                </div>
+                            </div>
+                            <div class="form-font">
+                                <div class=" form-left">
+                                    您的姓名：
+                                </div>
+                                <div class="form-list uese-name">
+                                    <input class="uese-name uese-name1" name="uname" type="text" placeholder="请输入您的姓名">
+                                </div>
+                            </div>
+                            <div class="tishi" style="display: block">
+                                <div class="font-tishi name-font-tishi">
+                                    ! 这是一个必填项哦
+                                </div>
+                            </div>
+                            <div class="form-font">
+                                <div class="form-left">
+                                    您的性别：
+                                </div>
+                                <div class="form-list user-sex">
+                                    <input type="radio" name="usex" value="男" title="男" checked>
+                                    <input type="radio" name="usex" value="女" title="女" >
+                                </div>
+                            </div>
+                            <div class="tishi" style="display: block">
+                                <div class="font-tishi sex-font-tishi">
+                                    ! 这是一个必填项哦
+                                </div>
+                            </div>
+                            <div class="form-font">
+                                <div class=" form-left">
+                                    您的电话：
+                                </div>
+                                <div class="form-list uese-name">
+                                    <input class="uese-name uese-phone" name="uphone" type="number" placeholder="请输入您的手机号">
+                                </div>
+                            </div>
+                            <div class="tishi" style="display: block">
+                                <div class="font-tishi name-font-phone">
+                                    ! 这是一个必填项哦
+                                </div>
+                            </div>
+                            <div class="form-font form-textarea">
+                                <div class="form-left">
+                                    补充说明：
+                                </div>
+                                <div class="form-list uese-name">
+                                    <textarea class="uese-name font-buchong" name="usupplement" id="" cols="30" rows="2" placeholder="补充内容">
+
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="tishi" style="display: block">
+                                <div class="font-tishi buchong-font-tishi">
+                                    ! 这是一个必填项哦
+                                </div>
+                            </div>
+                            <div class="form-font">
+                                <div class="form-left">
+                                    验证码：
+                                </div>
+                                <div class="form-list uese-name">
+                                    <input class="uese-name yanzhen-font" name="code" autocomplete="off" type="text" placeholder="请输入验证码">
+                                </div>
+                            </div>
+                            <div class="tishi" style="display: block">
+                                <div class="font-tishi yanzhen-font-tishi">
+                                    ! 这是一个必填项哦
+                                </div>
+                            </div>
+                            <div class="form-font form-auth-code">
+                                <div class="form-left">
+                                </div>
+
+                                <div class="form-user-code-img">
+                                    <img src="{:captcha_src()}" alt="captcha" onclick="this.src=this.src+'?a='+Date.now()"
+                                         style="width: 186px;height: 38px;"/>
+                                </canvas>
+                                </div>
+                            </div>
+                            <div class="form-font ">
+                                <div class="form-left main-user-submit">
+                                    <button class="layui-btn user-submit" lay-submit lay-filter="*">立即提交</button>
+                                </div>
+                                <div class="form-list">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-balank"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 表单结束 -->
+        {include file='public/footer'/}
+        <script>
+            layui.use('form',function () {
+                let {form,$}=layui;
+                form.on('submit(*)', function (data) {
+                    let dat = data.field;
+                    $.ajax({
+                        url: '/wetour/public/index/onlinebooking/insert',
+                        type: 'POST',
+                        data: dat,
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.code === 200) {
+                                layer.open({
+                                    title: '提示'
+                                    , content: res.msg
+                                });
+                                $('#form-reset')[0].reset();
+                            } else {
+                                layer.open({
+                                    title: '提示'
+                                    , content: res.msg
+                                });
+                            }
+                        }
+                    });
+                    return false;
+                });
+            })
+        </script>

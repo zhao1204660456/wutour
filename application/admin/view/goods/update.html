@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改商品</title>
+    <link rel="stylesheet" href="/wetour/public/static/css/layui.css">
+    <script src="/wetour/public/static/layui.js"></script>
+    <style>
+        img{
+            max-height: 120px;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">单行选择框</label>
+        <div class="layui-input-block">
+            <select name="cid"  >
+                {volist name="cates" id="v"}
+                <option value="{$v.id}" {$v.id===$datas.cid?"selected":""}>{$v.cname}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="gname" lay-verify="required" placeholder="请输入商品名称2-8个字符" autocomplete="off"
+                   class="layui-input" value="{$datas.gname}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">市场价</label>
+        <div class="layui-input-block">
+            <input type="number" name="gmprice" lay-verify="required" placeholder="请输入商品市场价" autocomplete="off"
+                   class="layui-input" value="{$datas.gmprice}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">零售价</label>
+        <div class="layui-input-block">
+            <input type="number" name="gsale" lay-verify="required" placeholder="请输入商品零售价" autocomplete="off"
+                   class="layui-input" value="{$datas.gsale}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">库存量</label>
+        <div class="layui-input-block">
+            <input type="number" name="gstock" lay-verify="required|number" placeholder="请输入商品库存量" autocomplete="off"
+                   class="layui-input" value="{$datas.gstock}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">缩略图</label>
+        <div class="layui-input-block">
+            <div class="layui-upload">
+                <button type="button" class="layui-btn" id="test1">修改缩略图</button>
+                <span style="color: #777777;">上传图片最佳大小100*100，最佳比例1:1,不超过200K</span>
+                <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+                    预览图：<div class="layui-upload-list" id="img-gthumb" >
+                    <img src="{$datas.gthumb}" alt="" id="img-revise">
+                </div>
+                </blockquote>
+            </div>
+            <input type="hidden" name="gthumb" value="{$datas.gthumb}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">轮播图</label>
+        <div class="layui-input-block">
+            <div class="layui-upload">
+                <button type="button" class="layui-btn" id="test2">轮播图修改</button>
+                <span style="color: #777777;">一次上传图片最多5张,最佳大小100*100，最佳比例1:1,不超过200K</span>
+                <blockquote class="layui-elem-quote layui-quote-nm" id="lay-gbanner" style="margin-top: 10px;">
+                    预览图：
+                    <div class="layui-upload-list" id="img-gbanner">
+                        {volist name="src" id="v"}
+                        <img src="{$v}" alt="" class="delete-banner">
+                        {/volist}
+                    </div>
+                </blockquote>
+            </div>
+            <input type="hidden" name="gbanner" value="{$datas.gbanner},">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品详情</label>
+        <div class="layui-input-block">
+            <textarea id="demo4"  style="display: none;resize: none;">{$datas.gdetail}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">提交修改</button>
+        </div>
+    </div>
+    <input type="hidden" name="id" value="{$datas.id}">
+</form>
+<script>
+    const URLFIRST = "/wetour/public/admin/goods/";
+    layui.use(['table', 'layer','form','upload','layedit'], function () {
+        let form = layui.form, $ = layui.jquery, layer = layui.layer,upload=layui.upload,layedit=layui.layedit;
+        let index = layedit.build('demo4');
+        upload.render({
+            elem:'#test1',
+            url:'/wetour/public/admin/upload/index',
+            accept:'images',
+            acceptMime:'image/*',
+            done:function (res) {
+                if(res.code===0){
+                    $('input[name=gthumb]').val(res.data.src);
+                    $('#img-revise').attr('src',res.data.src);
+                }else{
+                    return layer.msg('上传失败');
+                }
+            }
+        });
+        //多图上传
+        $('#test2').on('click',function () {
+            $('input[name=gbanner]').val('');
+            $('img[class=delete-banner]').remove();
+        });
+        upload.render({
+            elem:'#test2',
+            url:'/wetour/public/admin/upload/index',
+            multiple:true,
+            number:5,
+            done:function (res, index, upload) {
+                if(res.code===0){
+                    $('<img>').attr('src',res.data.src).appendTo($('#img-gbanner'));
+                    $('input[name=gbanner]').val((index,value)=>{return value+res.data.src+","});
+                }else{
+                    return layer.msg('上传失败');
+                }
+            }
+        });
+        //提交
+        form.on('submit(*)', function (data) {
+            let dat = data.field;
+            let formreset=data.form;
+            dat.gbanner=dat.gbanner.slice(0,-1);
+            dat.gdetail=layedit.getContent(index);
+            delete dat.file;
+            $.ajax({
+                url: '/wetour/public/admin/goods/updates',
+                type: 'POST',
+                data: dat,
+                dataType: 'json',
+                context:this,
+                success: function (res) {
+                    if (res.code === 200) {
+                        layer.open({
+                            title: '提示'
+                            ,content: res.msg
+                        });
+                        formreset.reset();
+                        $('input[type=hidden]').val("");
+                    } else {
+                        layer.open({
+                            title: '提示'
+                            ,content: res.msg
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    })
+</script>
+</body>
+</html>

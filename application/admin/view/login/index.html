@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="/wetour/public/static/css/layui.css">
+    <script src="/wetour/public/static/layui.js"></script>
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            background: url("/wetour/public/static/images/login/backg.jpg") no-repeat;
+        }
+
+        .container {
+            width: 420px;
+            height: 340px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+            padding: 20px;
+            z-index: 130;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 3px 18px rgba(100, 0, 0, .5);
+            font-size: 16px;
+        }
+
+        .close {
+            background-color: white;
+            border: none;
+            font-size: 18px;
+            margin-left: 410px;
+            margin-top: -10px;
+        }
+
+        .layui-input {
+            border-radius: 5px;
+            width: 300px;
+            height: 40px;
+            font-size: 15px;
+        }
+
+        .layui-form-item {
+            margin-left: -20px;
+        }
+
+        #logoid {
+            margin-top: -16px;
+            padding-left: 150px;
+            padding-bottom: 15px;
+        }
+
+        .layui-btn {
+            margin-left: -50px;
+            border-radius: 5px;
+            width: 350px;
+            height: 40px;
+            font-size: 15px;
+        }
+
+        .verity {
+            width: 120px;
+        }
+
+        .font-set {
+            font-size: 13px;
+            text-decoration: none;
+            margin-left: 120px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .titt{
+            font-size: 20px;
+            margin-left: 50px;
+        }
+    </style>
+</head>
+<body>
+<form class="layui-form" action="" method="post">
+    <div class="container">
+        <div class="layui-form-item titt">
+            <div class="layui-input-block layui-tit">
+                欢迎登录
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="请输入用户名"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">验证码</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="code" placeholder="请输入验证码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-inline">
+                    <img src="{:captcha_src()}" alt="captcha" onclick="this.src=this.src+'?a='+Date.now()"
+                         style="width: 186px;height: 38px;"/>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <button class="layui-btn" lay-submit lay-filter="*" style="margin-left: 50px;">登录</button>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>
+<script>
+    const URLADDRESS = "/wetour/public/index.php/";
+    layui.use('form', function () {
+        var {form, $} = layui;
+        form.on('submit(*)', function (data) {
+            let dat = data.field;
+            $.ajax({
+                url: URLADDRESS + 'admin/Login/check',
+                type: 'POST',
+                data: dat,
+                dataType: 'json',
+                success: function (res) {
+                    if (res.code === 200) {
+                        location.replace(URLADDRESS + 'admin/main/index');
+                    } else {
+                        layer.open({
+                            title: '提示'
+                            ,content: res.msg
+                        });
+                    }
+                }
+            });
+            return false;
+
+        })
+    });
+</script>

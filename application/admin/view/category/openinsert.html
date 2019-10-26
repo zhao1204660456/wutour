@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加分类</title>
+    <link rel="stylesheet" href="/wetour/public/static/css/layui.css">
+    <script src="/wetour/public/static/layui.js"></script>
+</head>
+<body>
+<form class="layui-form" id="form-reset">
+    <div class="layui-form-item">
+        <label class="layui-form-label">分类名</label>
+        <div class="layui-input-block">
+            <input type="text" name="cname" lay-verify="required|chinese" placeholder="分类名" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">数字排序</label>
+        <div class="layui-input-block">
+            <input type="number" name="cid" lay-verify="required|number" placeholder="数字排序" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>
+<script>
+    layui.use(['form', 'layer'], function () {
+        var form = layui.form, $ = layui.jquery, layer = layui.layer;
+        form.verify({
+            chinese: function (value, item) {
+                if (!new RegExp("^[\u4e00-\u9fa5][\u4e00-\u9fa5\\s·]{1,30}$").test(value)) {
+                    return '导航名只能为中文且开头不能有空格';
+                }
+            },
+        });
+        form.on('submit(*)', function (data) {
+            let dat = data.field;
+            $.ajax({
+                url: '/wetour/public/admin/category/insert',
+                type: 'POST',
+                data: dat,
+                dataType: 'json',
+                context:this,
+                success: function (res) {
+                    if (res.code === 200) {
+                        layer.open({
+                            title: '提示'
+                            ,content: res.msg
+                        });
+                        $('#form-reset')[0].reset();
+                    } else {
+                        layer.open({
+                            title: '提示'
+                            ,content: res.msg
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    });
+
+</script>

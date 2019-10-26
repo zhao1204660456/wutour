@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1343159_qo45xekm86b.css">
+    <link rel="stylesheet" href="__CSS_PATH__bootstrap.min.css">
+    <link rel="stylesheet" href="__CSS_PATH__animate.min.css">
+    <link rel="stylesheet" href="__CSS_PATH__public.css">
+    <link rel="stylesheet" href="/wetour/public/static/css/layui.css">
+    <script src="/wetour/public/static/layui.js"></script>
+    <title>{$tittle}</title>
+    <style>
+        .select{
+            color: #ff6000 !important;
+        }
+        .select1{
+            color: #777777 !important;
+        }
+        li:hover{
+            color: #ff6000 !important;
+        }
+    </style>
+</head>
+
+<body>
+<!-- 导航开始 -->
+<!-- 顶部导航 开始 -->
+<nav>
+    <div class="nav-box">
+        <div class="navl">
+            <img src="__IMG_PATH__common/车图标.png" alt="">
+        </div>
+        <ul class="navr navr1">
+            <a href="/wetour/public/index.php/index/index/index"><li class="index zo {$id==0?'select':'select1'}" id='index'>首页</li></a>
+                {volist name='nav' id='vo'}
+                    <a href="/wetour/public/index.php/index/category/index?id={$vo.id}" class="zo {$vo['id']==$id?'select':''}"><li id="{$vo.id}">
+                {$vo.nname}
+            </li></a>
+            {/volist}
+        </ul>
+    </div>
+</nav>
+<!-- 顶部导航 结束 -->
+<!-- 屏幕滚动出现 开始 -->
+<nav class="xiala-nav">
+    <div class="nav-box">
+        <div class="navl">
+            <img src="__IMG_PATH__common/车图标.png" alt="">
+        </div>
+        <ul class="navr navr2">
+            <a href="/wetour/public/index.php/index/index/index"><li class="index zo {$id==0?'select':'select1'}">首页</li></a>
+            {volist name='nav' id='vo'}
+            <a href="/wetour/public/index.php/index/category/index?id={$vo.id}" class="zo {$vo['id']==$id?'select':''}"><li">
+                {$vo.nname}
+            </li></a>
+            {/volist}
+        </ul>
+    </div>
+</nav>
+<!-- 屏幕滚动出现 结束 -->
+<!-- 屏幕缩小后出现的下拉列表 开始 -->
+<a href="#">
+    <div class="nav-list">
+
+
+        <div class="shouy">{$id==0?'首页':$tittle}</div>
+        <div class="shouy-xiala">∨</div>
+    </div>
+</a>
+<ul class="xialakuang" style="display: none;">
+    <li class="zo {$id==0?'select1':''}"><a href="/wetour/public/index.php/index/index/index">首页</a>
+    </li>
+    {volist name='nav' id='vo'}
+    <li class="zo"><a href="/wetour/public/index.php/index/category/index?id={$vo.id}">
+        {$vo.nname}
+    </a></li>
+    {/volist}
+</ul>
+<!-- 屏幕缩小后出现的下拉列表 结束 -->
+
+<!-- 导航结束 -->

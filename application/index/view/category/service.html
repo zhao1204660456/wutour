@@ -1,0 +1,55 @@
+{include file='public/header' /}
+<link rel="stylesheet" href="__CSS_PATH__service.css">
+    <!-- 头部图片开始 -->
+    <div class="container">
+        <div class="banner-box col-lg-12 col-md-12 col-xs-12">
+            <a href="../static/" class="photo">
+                <img src="__IMG_PATH__service/bj3.jpg" alt="" style="max-height: 236px">
+            </a>
+        </div>
+    </div>
+    <!-- 头部图片结束 -->
+    <!-- 中间文字部分开始 -->
+    <div class="container">
+        <div class="row">
+            <div class="title-bigbox ">
+                <div class="line-left  col-lg-5 col-md-5  col-xs-4">
+
+                </div>
+                <div class="header-title col-lg-2 col-md-2 col-xs-4">
+                    <dic class="title-cn">
+                        {$tittle}
+                    </dic>
+                    <div class="title-en">
+                        <span>{$ename}</span>
+                    </div>
+                </div>
+                <div class="line-right col-lg-5 col-md-5  col-xs-4">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 中间文字部分结束  -->
+    <!-- 内容部分开始 -->
+    <div class="row">
+        <div class="container">
+            <div class="content-box">
+                {volist name="datas" id="vo"}
+                    <div class="list-box animated col-lg-3 col-md-12 col-xs-12">
+                        <img src="{$vo.simg}" alt="" class="pic" col-lg-3 col-md-3 col-xs-3>
+                        <div class="content-title">
+                            <strong>{$vo.sname}</strong>
+                        </div>
+                        <img src="__IMG_PATH__service/内容横杠.png" alt="" class="line">
+                        <div class="content">
+                           {$vo.sintroduce}
+                        </div>
+                    </div>
+                {/volist}
+            </div>
+        </div>
+    </div>
+    <!-- 内容部分结束 -->
+{include file='public/footer'/}
+<script src="__JS_PATH__service.js"></script>

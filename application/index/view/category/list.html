@@ -1,0 +1,84 @@
+{include file='public/header'/}
+<link rel="stylesheet" href="__CSS_PATH__list.css">
+<!-- <div style=" height:1400px;background:cadetblue; "></div> -->
+<style>
+    .contant-box{
+        clear: both;
+    }
+</style>
+    <div class=" container ">
+        <!-- 头部轮播开始 -->
+        <div class=" banner ">
+            <div class=" banner-img " style="max-height: 236px;overflow: hidden">
+                <img src="__IMG_PATH__list/bj5.jpg " alt=" ">
+            </div>
+        </div>
+    </div>
+    <!-- 头部轮播结束 -->
+    <!-- 关于开始 -->
+    <div class=" container line-both ">
+        <div class=" aboutus ">
+            <div class='line'></div>
+            <div class=" guanyu ">
+                <div class=" zhongwen ">{$tittle}</div>
+                <div class=" yingwen ">{$ename}</div>
+            </div>
+            <div class=" line "></div>
+        </div>
+    </div>
+    <!-- 关于结束 -->
+    <!-- 列表开始 -->
+
+    <div class=" container ">
+        <div class=" index-product ">
+            <div class=" guide ">
+                <ul class=" guide-box ">
+                    {volist name='catedata' id='vo'}
+                    <li class="guide-smbox" id="{$vo.id}">
+                        {$vo.cname} &nbsp&nbsp&nbsp|
+                    </li>
+                   {/volist}
+                </ul>
+                <div class=" contant-box ">
+                        {volist name='datas' id='v'}
+                    <div class=" contant ">
+                        {volist name='v' id='vo'}
+                        <a href="/wetour/public/index.php/index/goods/index?id={$id}&gid={$vo.id}">
+                            <div class=" contant-imgs ">
+                                <img src="{$vo.gthumb}" alt=" ">
+                            </div>
+                            <div class=" wenzis overflow-hidden">
+                                {$vo.gname}
+                            </div>
+                            <div class=" prices ">
+                                {$vo.gmprice}
+                                起
+                            </div>
+                        </a>
+                        {/volist}
+                    </div>
+
+                    {/volist}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 列表结束 -->
+{include file='public/footer'/}
+<script>
+    layui.use('form', function () {
+        var {form, $} = layui;
+        let box = $('.guide-box').children("li");
+        let ul = $('.contant-box').children(".contant");
+        ul.css("display", "none");
+        ul[0].style.display = "block";
+        for (let i = 0; i < box.length; i++) {
+            box[i].onclick = function () {
+                for (let j = 0; j < box.length; j++) {
+                    ul[j].style.display = "none";
+                }
+                ul[i].style.display = "block";
+            }
+        }
+    })
+</script>

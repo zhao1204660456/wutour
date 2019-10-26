@@ -1,0 +1,63 @@
+{include file='public/header' /}
+<style>
+    .tour-img{
+        hroght: 100%;
+        width: 100%;
+    }
+</style>
+<link rel="stylesheet" href="__CSS_PATH__aboutsus.css">
+
+    <div class="container">
+        <div class="row">
+            <!-- banner开始 -->
+            <div class="banner-img" style="max-height: 264px;">
+                <img src="__IMG_PATH__aboutsus/banner.jpg" alt="" >
+            </div>
+            <!-- banner结束 -->
+            <!-- 分割线开始 -->
+            <div class="aboutus">
+                <div class='line'></div>
+                <div class="guanyu">
+                    <div class="zhongwen">{$tittle}</div>
+                    <div class="yingwen">{$ename}</div>
+                </div>
+                <div class="line"></div>
+            </div>
+            <!-- 分割线结束 -->
+            <!-- 详细介绍开始 -->
+            <div class="content">
+                {volist name='companydata' id='vo'}
+                <div class="content-wenzi col-lg-6">
+                    {$vo.cintroduce}
+                </div>
+                <div class="img col-lg-6">
+                    <img src="{$vo.cimg}" alt="">
+                </div>
+                {/volist}
+            </div>
+
+            <div class="aboutus">
+                <div class='line'></div>
+                <div class="guanyu">
+                    <div class="zhongwen">资深导游</div>
+                    <div class="yingwen">Guide</div>
+                </div>
+                <div class="line"></div>
+            </div>
+            <!-- 详细介绍结束 -->
+            <!-- 导游介绍开始 -->
+            {volist name='guidesdata' id='vo'}
+            <div class="guide">
+                <div class="guide-detail col-lg-3">
+                    <div class="guide-detail-img">
+                        <img class="tour-img" src="{$vo.aimg}" alt="">
+                    </div>
+                    <div class="guide-detail-name">{$vo.aname}</div>
+                    <div class="guide-detail-pos">{$vo.apost}</div>
+                </div>
+            </div>
+            {/volist}
+            <!-- 导游介绍结束 -->
+        </div>
+    </div>
+{include file='public/footer'/}

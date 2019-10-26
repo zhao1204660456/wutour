@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加导游</title>
+    <link rel="stylesheet" href="/wetour/public/static/css/layui.css">
+    <script src="/wetour/public/static/layui.js"></script>
+</head>
+<body>
+<form class="layui-form" id="form-reset">
+    <div class="layui-form-item">
+        <label class="layui-form-label">导游名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="aname" lay-verify="required" placeholder="请输入中文名" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">导游职位</label>
+        <div class="layui-input-block">
+            <input type="text" name="apost" lay-verify="required" placeholder="请输入英文名" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">缩略图</label>
+        <div class="layui-input-block">
+            <div class="layui-upload">
+                <button type="button" class="layui-btn" id="test1">上传缩略图</button>
+                <span style="color: #777777;">上传图片最佳大小100*100，最佳比例1:1,不超过200K</span>
+                <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+                    预览图：<div class="layui-upload-list" id="img-gthumb"></div>
+                </blockquote>
+            </div>
+            <input type="hidden" name="aimg">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="*">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>
+<script>
+    layui.use(['form', 'layer','upload'], function () {
+        let form = layui.form, $ = layui.jquery, layer = layui.layer,upload=layui.upload;
+        upload.render({
+            elem:'#test1',
+            url:'/wetour/public/index.php/admin/upload/index',
+            accept:'images',
+            acceptMime:'image/*',
+            done:function (res) {
+                if(res.code===0){
+                    $('<img>').attr('src',res.data.src).appendTo($('#img-gthumb'));
+                    $('input[name=aimg]').val(res.data.src);
+                }else{
+                    return layer.msg('上传失败');
+                }
+            }
+        });
+        form.on('submit(*)', function (data) {
+            let dat = data.field;
+            delete dat.file;
+            $.ajax({
+                url: '/wetour/public/index.php/admin/aboutus/insert',
+                type: 'POST',
+                data: dat,
+                dataType: 'json',
+                context:this,
+                success: function (res) {
+                    if (res.code === 200) {
+                        layer.open({
+                            title: '提示'
+                            ,content: res.msg
+                        });
+                        $('img').remove();
+                        $('input[type=hidden]').val("");
+                    } else {
+                        layer.open({
+                            title: '提示'
+                            ,content: res.msg
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+    });
+
+</script>
